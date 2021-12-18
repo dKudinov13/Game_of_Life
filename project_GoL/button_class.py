@@ -4,10 +4,31 @@ vec = pygame.math.Vector2
 
 
 class Button:
+    """
+    Класс Кнопки создает кнопку с заданными атрибутами и описывает методы взаимодействия с ней.
+    """
     def __init__(self, surface, x, y, width, height, state='', id='', function=0,
                  colour=(255, 255, 255), hover_colour=(255, 255, 255), border=True,
                  border_width=2, border_colour=(0, 0, 0), text='', font_name='arial',
                  text_size=20, text_colour=(0, 0, 0), bold_text=False):
+        """
+        Инициализирует кнопку с заданными параметрами
+        :param x: координата х кнопки
+        :param y: координата у кнопки
+        :param width: ширина кнопки
+        :param height: высота кнопки
+        :param state: состояние кнопки
+        :param id: id кнопки
+        :param function: функция, присвоенная кнопке
+        :param colour: цвет кнопки
+        :param hover_colour: цвет кнопки при наведении
+        :param border: границы кнопки
+        :param border_width: ширина границы кнопки
+        :param border_colour: цвет кнопки
+        :param text: текс, находящейся в кнопке
+        :param text_size: размер текста в кнопке
+        :param text_colour: цвет текста в кнопке
+        """
         self.type = 'button'
         self.x = x
         self.y = y
@@ -36,6 +57,13 @@ class Button:
 
 
     def update(self, pos, game_state=''):
+        """
+        Обновление состояния кнопки
+
+        Работает с состояниями кнопки(наведен ли курсор, показана ли она на экране)
+
+        :param game_state: принимает состояние системы
+        """
         if self.mouse_hovering(pos):
             self.hovered = True
         else:
@@ -51,6 +79,9 @@ class Button:
 
 
     def draw(self):
+        """
+        Отрисовывает кнопку по заданным параметрам
+        """
         if self.showing:
             if self.border:
                 self.image.fill(self.border_colour)
@@ -69,10 +100,16 @@ class Button:
             self.surface.blit(self.image, self.pos)
 
     def click(self):
+        """
+        Обработка нажатия на кнопку
+        """
         if self.function != 0 and self.hovered:
             self.function()
 
     def show_text(self):
+        """
+        Выведение текста внутри кнопки
+        """
         font = pygame.font.SysFont(self.font_name, self.text_size, bold=self.bold_text)
         text = font.render(self.text, False, self.text_colour)
         size = text.get_size()
@@ -81,6 +118,10 @@ class Button:
         self.image.blit(text, pos)
 
     def mouse_hovering(self, pos):
+        """
+        Обрабатывает навдение курсора на кнопку
+        :param pos: принимает позицию курсора
+        """
         if self.showing:
             if pos[0] > self.pos[0] and pos[0] < self.pos[0] + self.width:
                 if pos[1] > self.pos[1] and pos[1] < self.pos[1] + self.height:
@@ -89,3 +130,5 @@ class Button:
                 return False
         else:
             return False
+            self.function()
+
